@@ -82,3 +82,10 @@ The application should now be running in your web browser at [http://localhost:3
 ## Production environment
 
 To publish an application over the internet, a virtual machine must be provisioned within the EPFL IT infrastructure. Please contact ENAC-IT4R for further information.
+
+
+## Conributing process
+
+Here are the process to follow to contribute to this project :
+
+![contribute](docs/statics/contributing_process.png)
