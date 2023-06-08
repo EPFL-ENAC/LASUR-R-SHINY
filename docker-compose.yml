@@ -23,7 +23,9 @@ services:
       - ${SSL_CERT_KEY:-./cert/certificate.key}:/cert/certificate.key
 
   r_shiny_app:
-    build: .
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
