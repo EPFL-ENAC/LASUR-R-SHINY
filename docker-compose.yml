@@ -41,8 +41,6 @@ services:
       context: .
       dockerfile: ./app/Dockerfile
     restart: unless-stopped
-    ports:
-      - 3838:3838
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock

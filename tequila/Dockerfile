@@ -1,5 +1,4 @@
-FROM php:8.2-apache
-RUN docker-php-ext-install pdo pdo_mysql
+FROM httpd:2.4
 
 RUN apt -qy update \
     && apt -qy install ed wget build-essential ca-certificates \
@@ -9,24 +8,13 @@ RUN apt -qy update \
 RUN cd / \
     && wget https://tequila.epfl.ch/download/2.0/tequila-apache-C-2.0.17.tgz \
     && tar zxvf tequila-apache-C-2.0.17.tgz
-RUN cd /tequila-2.0.17/Apache/C/ \
-    && ed - Makefile <<EOFMakefile
-g/httpd /s:httpd :apache2 :
-g/apxs/s:apxs :apxs2 :
-wq
-EOFMakefile
-RUN cd /tequila-2.0.17/Apache/C/ \
-    && make && make install
+RUN if cd /tequila-2.0.17/Apache/C/ && make ; then make install; true; else false; fi
 
-COPY tequila/tequila.load /etc/apache2/mods-available/tequila.load
-COPY tequila/tequila.conf /etc/apache2/mods-available/tequila.conf
-
-RUN mkdir /var/tequila \
-    && chown www-data: /var/tequila \
-    && a2enmod tequila
+COPY tequila/tequila.load /usr/local/apache2/mods-available/tequila.load
+COPY tequila/tequila.conf /usr/local/apache2/mods-available/tequila.conf
 
 # Enable proxy
-RUN a2enmod proxy proxy_http
-COPY tequila/apache.conf /etc/apache2/sites-enabled/000-default.conf
+COPY tequila/apache.conf /usr/local/apache2/conf/custom.conf
+RUN echo "Include /usr/local/apache2/conf/custom.conf" >> /usr/local/apache2/conf/httpd.conf
 
 EXPOSE 80
