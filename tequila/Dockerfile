@@ -20,13 +20,16 @@ RUN cd /tequila-2.0.17/Apache/C/ \
 RUN cd /tequila-2.0.17/Apache/C/ \
     && make && make install
 
-COPY tequila/tequila.conf /etc/apache2/mods-available/tequila.conf
-
 RUN mkdir /var/tequila \
     && chown www-data: /var/tequila
+RUN mkdir /var/log/apache2/ \
+    && chown www-data: /var/log/apache2/
 
 # Enable proxy
+COPY tequila/tequila.conf /usr/local/apache2/conf/tequila.conf
 COPY tequila/apache.conf /usr/local/apache2/conf/custom.conf
-RUN echo "Include /usr/local/apache2/conf/custom.conf" >> /usr/local/apache2/conf/httpd.conf
+RUN echo "\n\
+    Include /usr/local/apache2/conf/tequila.conf\n\
+    Include /usr/local/apache2/conf/custom.conf\n" >> /usr/local/apache2/conf/httpd.conf
 
 EXPOSE 80 443
