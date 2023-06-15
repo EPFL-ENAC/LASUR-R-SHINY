@@ -81,7 +81,11 @@ The application should now be running in your web browser at [http://localhost:3
 
 ## Production environment
 
-To publish an application over the internet, a virtual machine must be provisioned within the EPFL IT infrastructure. Please contact ENAC-IT4R for further information.
+The _main_ branch of this repository is deployed at [panel-lemanique.epfl.ch](https://panel-lemanique.epfl.ch/) and the _dev_ branch is deployed at [panel-lemanique-test.epfl.ch](https://panel-lemanique-test.epfl.ch/). To run the app as it would be on the deployment machines, run
+```
+make run
+```
+and visit [http://localhost](http://localhost/) on your web browser. You may see a warning about invalid certificates, that can be safely ignored.
 
 
 ## Conributing process
