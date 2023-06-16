@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  tequila:
+    build:
+      context: .
+      dockerfile: ./tequila/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ${SSL_CERT_CRT:-./cert/certificate.crt}:/usr/local/apache2/conf/server.crt
+      - ${SSL_CERT_KEY:-./cert/certificate.key}:/usr/local/apache2/conf/server.key
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  r_shiny_app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/EPFL_vague1_extrait.csv:/srv/shiny-server/data.csv
