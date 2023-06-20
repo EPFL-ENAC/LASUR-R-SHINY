@@ -10,5 +10,6 @@ generate-selfsigned-cert-win:
 	docker compose up --remove-orphans
 
 run:
+	docker compose down
 	docker compose build --pull
 	docker compose up -d --remove-orphans
