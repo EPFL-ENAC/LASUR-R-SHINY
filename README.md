@@ -23,6 +23,14 @@ The test environment utilizes Docker to run the application in the same way it w
 ### Prerequisite
 
 - Install Docker on your machine as explained on the [ENAC-IT4R web page](https://www.notion.so/Docker-quick-setup-278abe4712024abaaeea77e49a4c5b9f).
+
+Make sure to set the core.eol configuration option to lf to ensure consistent line endings. This is needed to avoid errors when running the application in Docker.
+
+    ```bash
+    git config --global core.eol lf
+    ```
+
+
 - (Optional) install Git as explained on the [ENAC-IT4R web page](https://www.notion.so/Install-Git-0a608fb1909f471284c189cf172c9016).
 
 These are the only applications needed. R and Shiny are installed inside the Docker container.
