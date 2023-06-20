@@ -10,15 +10,39 @@ Docker is a powerful tool that leverages containerization technology to streamli
 
 ## Repository stucture
 
+
+**Core application files**
+
+These folders contain the application core files. They can be modified to change the application behavior / content. 
+
 📁 app - *folder containing the R application*
 
 📁 data - *folder containing the data*
 
 📁 install - *folder containing the installation files*
 
-## Test environment
 
-The test environment utilizes Docker to run the application in the same way it will run in production (on the internet). If it works locally with Docker, it will also work in production with Docker.
+
+**Hosting, access and deployment files**
+
+These folders contain the hosting files. These files should not be changed. 
+
+📁 .github - *folder containing the continuous deployment scripts*
+
+📁 cert - *folder containing certificates for the web interface*
+
+📁 doc - *folder containing the documentation images*
+
+📁 tequila - *folder containing the user access files (via tequila)*
+
+
+
+
+
+
+## Development environment
+
+The development environment utilizes Docker to run the application in the same way it will run in production (on the internet). If it works locally with Docker, it will also work in production with Docker.
 
 ### Prerequisite
 
@@ -35,7 +59,7 @@ Make sure to set the core.eol configuration option to lf to ensure consistent li
 
 These are the only applications needed. R and Shiny are installed inside the Docker container.
 
-### Installation
+### How to run the application locally ?
 
 1. Clone or unzip the repository:
     
@@ -58,46 +82,81 @@ These are the only applications needed. R and Shiny are installed inside the Doc
 4. Run the following command to create the Docker image:
     
     ```bash
-    docker build -t poc_lasur_r_shiny .
+    make run
     ```
+
+    The application should now be running in your web browser at [http://localhost:3838/](http://localhost:3838/).
     
 
-The application has been installed locally on your computer.
 
-### Run the Application
-
-To load the data and start the app, run the following command:
-
-- On Windows:
-    
-    ```bash
-    docker run -p 3838:3838 -v ${pwd}/data/EPFL_vague1_extrait.csv:/srv/shiny-server/data.csv poc_lasur_r_shiny:latest
-    
-    ```
-    
-- On MAC/Linux:
-    
-    ```
-    docker run -p 3838:3838 -v $(pwd)/data/EPFL_vague1_extrait.csv:/srv/shiny-server/data.csv poc_lasur_r_shiny:latest
-    
-    ```
-    
-
-Where `EPFL_vague1_extrait.csv` is the name of the data file.
-
-The application should now be running in your web browser at [http://localhost:3838/](http://localhost:3838/).
-
-## Production environment
-
-The _main_ branch of this repository is deployed at [panel-lemanique.epfl.ch](https://panel-lemanique.epfl.ch/) and the _dev_ branch is deployed at [panel-lemanique-test.epfl.ch](https://panel-lemanique-test.epfl.ch/). To run the app as it would be on the deployment machines, run
-```
-make run
-```
-and visit [http://localhost](http://localhost/) on your web browser. You may see a warning about invalid certificates, that can be safely ignored.
-
-
-## Conributing process
+### How to add changes to the code or to the source data ?
 
 Here are the process to follow to contribute to this project :
 
 ![contribute](docs/statics/contributing_process.png)
+
+
+1. Make sure you are on the `feature_x` branch:
+    
+    ```bash
+    git checkout feature_x
+    ```
+
+2. Make changes to the code or to the data.
+
+    > Note that if the data file name as changed, the `docker-compose.yml` file must be updated accordingly.
+
+3. Test the application locally as explained in the previous section.
+
+    ```bash
+    make run
+    ```
+
+    The application should now be running in your web browser at [http://localhost:3838/](http://localhost:3838/).
+    and visit [http://localhost](http://localhost/) on your web browser. You may see a warning about invalid certificates, that can be safely ignored.
+
+
+
+4. Commit your changes:
+    
+    ```bash
+    git commit -am "Add some feature"
+    ```
+
+5. Push to the branch:
+    
+    ```bash
+    git push origin feature_x
+    ```
+
+6. Create a pull request to the dev branch.
+
+7. Once the pull request is approved, merge it to the dev branch.
+
+
+
+
+## Test and production environment
+
+There are two web interfaces for this application : 
+
+* [panel-lemanique.epfl.ch](https://panel-lemanique.epfl.ch/) : the production interface based on the _main_ branch of this repository
+* [panel-lemanique-test.epfl.ch](https://panel-lemanique-test.epfl.ch/) : the test interface based on the _dev_ branch of this repository
+
+
+Access to these interfaces is restricted by tequila. 
+
+* Users outside EPFL can create a guest profile on [guests.epfl.ch](https://guests.epfl.ch)
+* New profile (EPFL and no-EPFL users) can be granted accreditation for the `panel-lemanique-users` group through [groups.epfl.ch](https://groups.epfl.ch) by the administrators.
+
+
+
+
+
+
+
+
+
+
+
+
