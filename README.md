@@ -99,7 +99,7 @@ Option 1 : Local run with tequila authentication :
     ```
    The application should now be running in your web browser at [http://localhost](http://localhost/). Access to the application is restricted by tequila. You may see a warning about invalid certificates, that can be safely ignored.
 
-Option : Local run without tequila authentication :
+Option 2 : Local run without tequila authentication :
 
 5. Run the following command to create the Docker image:
     
