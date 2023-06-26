@@ -48,44 +48,89 @@ The development environment utilizes Docker to run the application in the same w
 
 - Install Docker on your machine as explained on the [ENAC-IT4R web page](https://www.notion.so/Docker-quick-setup-278abe4712024abaaeea77e49a4c5b9f).
 
-Make sure to set the core.eol configuration option to lf to ensure consistent line endings. This is needed to avoid errors when running the application in Docker.
+    Make sure to set the core.eol configuration option to lf to ensure consistent line endings. This is needed to avoid errors when running the application in Docker.
 
     ```bash
     git config --global core.eol lf
     ```
 
 
-- (Optional) install Git as explained on the [ENAC-IT4R web page](https://www.notion.so/Install-Git-0a608fb1909f471284c189cf172c9016).
+- Install Git as explained on the [ENAC-IT4R web page](https://www.notion.so/Install-Git-0a608fb1909f471284c189cf172c9016).
 
 These are the only applications needed. R and Shiny are installed inside the Docker container.
 
 ### How to run the application locally ?
 
-1. Clone or unzip the repository:
-    
-    ```bash
-    git clone <https://github.com/EPFL-ENAC/LASUR-R-SHINY.git>
-    
-    ```
-    
-    or
-    
-    [https://github.com/EPFL-ENAC/LASUR-R-SHINY/archive/refs/heads/main.zip](https://github.com/EPFL-ENAC/LASUR-R-SHINY/archive/refs/heads/main.zip)
-    
-2. Open a command line window (PowerShell for Windows).
-3. Navigate to the cloned or unzipped folder:
+1. Open a command line window (PowerShell for Windows).
+1. Navigate to the cloned or unzipped folder:
     
     ```bash
     cd <your_path>/LASUR-R-SHINY
     ```
+
+
+1. Clone the repository:
     
-4. Run the following command to create the Docker image:
+    ```bash
+    git clone https://github.com/EPFL-ENAC/LASUR-R-SHINY.git
+    
+    ```
+
+1. Navigate to the cloned folder:
+    
+    ```bash
+    cd LASUR-R-SHINY
+    ```
+
+Option 1 : Local run with tequila authentication : 
+
+
+5. Run the command to generate the certificates:
+    
+    ```bash
+    make generate-selfsigned-cert-win
+    ``` 
+    This creates 2 files in the `cert` folder: `certificate.crt` and `certificate.key`. This is needed to run the application locally with Docker and tequila authentication.
+
+1. Run the following command to create the Docker image:
     
     ```bash
     make run
     ```
+   The application should now be running in your web browser at [http://localhost](http://localhost/). Access to the application is restricted by tequila. You may see a warning about invalid certificates, that can be safely ignored.
+
+Option : Local run without tequila authentication :
+
+5. Run the following command to create the Docker image:
+    
+    ```bash
+    docker build -t poc_lasur_r_shiny .
+    ```
+   The application has been installed locally on your computer.
+
+1. To load the data and start the app, run the following command:
+
+- On Windows:
+    
+    ```bash
+    docker run -p 3838:3838 -v ${pwd}/data/EPFL_vague1_extrait.csv:/srv/shiny-server/data.csv poc_lasur_r_shiny:latest
+    
+    ```
+    
+- On MAC/Linux:
+    
+    ```
+    docker run -p 3838:3838 -v $(pwd)/data/EPFL_vague1_extrait.csv:/srv/shiny-server/data.csv poc_lasur_r_shiny:latest
+    
+    ```
+
+
+    Where `EPFL_vague1_extrait.csv` is the name of the data file.
 
     The application should now be running in your web browser at [http://localhost:3838/](http://localhost:3838/).
+
+
+
     
 
 
@@ -112,9 +157,14 @@ Here are the process to follow to contribute to this project :
     make run
     ```
 
-    The application should now be running in your web browser at [http://localhost:3838/](http://localhost:3838/).
-    and visit [http://localhost](http://localhost/) on your web browser. You may see a warning about invalid certificates, that can be safely ignored.
+    The application should now be running in your web browser at [http://localhost/](http://localhost). You may see a warning about invalid certificates, that can be safely ignored.
 
+
+1. Add the files to the staging area:
+    
+    ```bash
+    git add .
+    ```
 
 
 4. Commit your changes:
