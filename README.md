@@ -147,6 +147,14 @@ Here are the process to follow to contribute to this project :
     git checkout feature_x
     ```
 
+    if you would like to work in a new branch :
+        
+    ```bash
+    git checkout -b feature_x
+    ```
+
+    
+
 2. Make changes to the code or to the data.
 
     > Note that if the data file name as changed, the `docker-compose.yml` file must be updated accordingly.
