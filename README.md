@@ -57,6 +57,29 @@ The development environment utilizes Docker to run the application in the same w
 
 - Install Git as explained on the [ENAC-IT4R web page](https://www.notion.so/Install-Git-0a608fb1909f471284c189cf172c9016).
 
+- Install Make.
+
+    To run in powershell in administrator mode :
+    
+    ```bash
+    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    ```
+
+    and : 
+
+    ```bash
+    choco install make
+    ```
+
+    to check if make is installed : 
+
+    ```bash
+    make --version
+    ```
+
+    Reference : [this page](https://linuxhint.com/install-use-make-windows)
+
+
 These are the only applications needed. R and Shiny are installed inside the Docker container.
 
 ### How to run the application locally ?
