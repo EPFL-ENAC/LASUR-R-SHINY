@@ -8,7 +8,7 @@ library(scales)
 library(viridis)
 library(shiny)
 library(sjmisc)
-#library(haven)
+library(haven)
 library(labelled)
 
 #setwd("CHEMIN.DU.DOSSIER")
@@ -17,8 +17,9 @@ library(labelled)
 print(getwd())
 
 
+data <- as_tibble(read_spss("data.sav"))
 
-data <- as_tibble(read.csv2("data.csv"))
+#data <- as_tibble(read.csv2("data.csv"))
 
 #data_filtre <- data %>% filter(Progress == 100, Speeder == 0)
 
@@ -41,7 +42,7 @@ data_shiny <- data %>%
 ui <- fluidPage(
   tags$h3("Panel lémanique - Exploration des données"),
   selectInput(inputId = "x", label = "Variable dépendante", 
-              choices = c("Test A" = "age")),
+              choices = c("Test A" = "age", "Test Ab" = "formation")),
   selectInput(inputId = "y", label = "Comparer...", 
               choices = c("Test B" = "formation")),
   checkboxGroupInput(inputId = "z", "Périmètre", choices = levels(data_shiny$dom_Typo_panel), selected = levels(data_shiny$dom_Typo_panel), inline = T),
