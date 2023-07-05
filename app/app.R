@@ -11,7 +11,6 @@ library(viridis)
 library(shiny)
 library(haven)
 library(labelled)
-#library(grDevices)
 #windowsFonts(Times = "Times New Roman")
 
 #setwd("Y:/common/LaSUR/06 - Recherche/2021/Panel lémanique/Données/Vague 1")
@@ -146,8 +145,7 @@ ui <- fluidPage(
                           "Aisance transports publics" = "Q91",
                           "Préf. pour les loisirs proches" = "Q95_2")),
   selectInput(inputId = "y", label = "Comparer...", 
-              choices = c("Pays" = "Pays",
-                          "Typologie domicile" = "dom_Typo_panel",
+              choices = c("Typologie domicile" = "dom_Typo_panel",
                           "Typologie travail" = "trav_Typo_panel",
                           "Distances domicile - travail" = "dist_domtrav_cat",
                           "Genre" = "Genre_actuel",
@@ -198,13 +196,13 @@ server <- function(input, output, session) {
   plot_output <- reactive({
     ggplot(data = data(), aes_string(x = input$x, fill = input$x)) + 
       geom_bar(aes(y = prop_pond), stat = "identity", position = position_dodge(0.9), width = 0.85) +
-      geom_bar_text(aes(y = prop_pond, label = percent(prop_pond, 1), group = input$x), family = "sans") +
-      geom_label(aes(x = Inf, y = Inf, fill = NULL, label = paste0("Échantillon = ", effectif_pond)), family = "sans", 
+      geom_bar_text(aes(y = prop_pond, label = percent(prop_pond, 1), group = input$x), family = "Times") +
+      geom_label(aes(x = Inf, y = Inf, fill = NULL, label = paste0("Échantillon = ", effectif_pond)), family = "Times", 
                  label.padding = unit(0.5, "lines"), label.r = unit(0.15, "lines"), hjust = "inward", vjust = "inward", show.legend = F) +
       facet_grid(~ get(input$y)) +
       scale_y_continuous(labels = percent, expand = expansion(mult = c(0, 0.1))) + scale_fill_viridis(discrete = T, option = "D") +
       labs(x = var_label(data_shiny[[input$x]]), y = "Proportions", fill = "") +
-      theme_bw() + theme(text = element_text(family = "sans", size = 15), legend.position = "bottom",
+      theme_bw() + theme(text = element_text(family = "Times", size = 15), legend.position = "bottom",
                          axis.title.x = element_textbox_simple(halign = 0.5), axis.text.x = element_text(angle = 20, hjust = 1),
                          axis.title = element_text(face = "bold"), strip.text = element_text(face = "italic"))
   })
@@ -213,7 +211,7 @@ server <- function(input, output, session) {
   
   output$download <- downloadHandler(
     filename = function() {paste("panel", input$extension, sep = ".")},
-    content = function(file) {ggsave(file, plot_output(), device = input$extension, dpi = 300, height = 100, width = 150, units = "mm", scale = 1.5)}
+    content = function(file) {ggsave(file, plot_output(), device = input$extension, dpi = 300, height = 200, width = 300, units = "mm")}
   )
   
   output$Test <- renderDataTable(data_mean())
