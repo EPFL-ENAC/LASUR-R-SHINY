@@ -1,4 +1,10 @@
 install.packages("renv")
+install.packages("ggfittext")
+install.packages("ggtext")
+install.packages("grDevices")
 library(renv)
+library(ggfittext)
+library(ggtext)
+library(grDevices)
 
 renv::restore(prompt=FALSE)
