@@ -22,4 +22,4 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./data/EPFL_vague1_v4.sav:/srv/shiny-server/data.sav
+      - ./data/EPFL_vague1_pond_clean.sav:/srv/shiny-server/data.sav
