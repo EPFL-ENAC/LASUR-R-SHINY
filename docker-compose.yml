@@ -1,9 +1,8 @@
-version: "3.9"
 services:
-  tequila:
+  reverse-proxy:
     build:
       context: .
-      dockerfile: ./tequila/Dockerfile
+      dockerfile: ./reverse-proxy/Dockerfile
     restart: unless-stopped
     ports:
       - "80:80"
@@ -11,6 +10,8 @@ services:
     volumes:
       - ${SSL_CERT_CRT:-./cert/certificate.crt}:/usr/local/apache2/conf/server.crt
       - ${SSL_CERT_KEY:-./cert/certificate.key}:/usr/local/apache2/conf/server.key
+      - ./reverse-proxy/apache.conf:/usr/local/apache2/conf/custom.conf:ro
+      - ./reverse-proxy/oidc.secret.conf:/usr/local/apache2/oidc.secret.conf:ro
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
 
