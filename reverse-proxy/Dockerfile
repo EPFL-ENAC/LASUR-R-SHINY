@@ -1,4 +1,4 @@
-FROM httpd:2.4
+FROM httpd:2.4-trixie
 
 RUN apt -qy update \
     && apt -qy install sed wget
@@ -7,8 +7,8 @@ RUN apt -qy update \
 
 # Install Apache OpenIDC
 RUN cd / \
-    && wget https://github.com/OpenIDC/mod_auth_openidc/releases/download/v2.4.16.8/libapache2-mod-auth-openidc_2.4.16.8-1.bookworm_amd64.deb \
-    && apt-get -qy install ./libapache2-mod-auth-openidc_2.4.16.8-1.bookworm_amd64.deb
+    && wget https://github.com/OpenIDC/mod_auth_openidc/releases/download/v2.4.19.2/libapache2-mod-auth-openidc_2.4.19.2-1.trixie_amd64.deb \
+    && apt-get -qy install ./libapache2-mod-auth-openidc_2.4.19.2-1.trixie_amd64.deb
 
 # Enable SSL
 RUN sed -i \
